@@ -1,0 +1,10 @@
+	Farmacia Pikachu :3
+Can.		Descripcion		P/unit		importe
+10		loratadina		10		100
+30		nimesulida		20		600
+30		penicilina		80		2400
+20		paracetamol		0		0
+30		betametazona		50		1500
+						SubTotal: 4600
+						IVA: 736.00
+						Total: 5336.00
