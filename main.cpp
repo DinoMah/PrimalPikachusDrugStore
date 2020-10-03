@@ -5,21 +5,27 @@
 #include "./include/menu.hpp"
 #include "./include/optionInvocation.hpp"
 #include "./include/altas.hpp"
-#include "../include/cambios.hpp"
-#include "../include/bajas.hpp"
-#include "../include/consultas.hpp"
-#include "../include/entradas.hpp"
-#include "../include/salidas.hpp"
+#include "./include/cambios.hpp"
+#include "./include/bajas.hpp"
+#include "./include/consultas.hpp"
+#include "./include/entradas.hpp"
+#include "./include/salidas.hpp"
+#include <functional>
 
 
-void executeProgram(int option, void (*options[])(objeto &));
+void executeProgram(int option, std::function<void(objeto &)> (options[]));
 
 int main()
 {
     int *option = new int;
-    void (*options[7])(objeto &);
+    std::function<void(objeto &)> options[6];
 
     options[0] = &altas;
+    options[1] = &bajas;
+    options[2] = &cambios;
+    options[3] = &consultas;
+    options[4] = &entradas;
+    options[5] = &salidas;
     
     executeProgram(*option, options);
     
@@ -29,7 +35,7 @@ int main()
     return 0;
 }
 
-void executeProgram(int option, void (*options[])(objeto &))
+void executeProgram(int option, std::function<void(objeto &)> (options[]))
 {
     do
     {

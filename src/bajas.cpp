@@ -1,6 +1,6 @@
 #include "../include/bajas.hpp"
 
-void bajas( objeto &b, int &sdia, int &smes, int &sanyo  ){
+void bajas(objeto &b){
    /*system( "cls" );
     fstream archive( "base.dat", ios::binary | ios::out | ios::in );
     if( archive.is_open() ){

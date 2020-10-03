@@ -3,6 +3,6 @@
 
 #include "../src/objeto.cpp"
 
-void bajas( objeto & ,int&,int&,int&);
+void bajas(objeto &);
 
 #endif // BAJAS_H

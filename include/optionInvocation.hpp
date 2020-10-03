@@ -2,7 +2,8 @@
 #define OPTIONINVOCATION_H
 
 #include "../src/objeto.cpp"
+#include <functional>
 
-void invokeOption(int option, void (*options[])(objeto &));
+void invokeOption(int option, std::function<void(objeto &)> (options[]));
 
 #endif // OPTIONINVOCATION_H

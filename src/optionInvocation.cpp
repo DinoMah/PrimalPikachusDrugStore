@@ -1,11 +1,9 @@
 #include "../include/optionInvocation.hpp"
 #include <iostream>
-#include "./objeto.cpp"
 #include "../include/cascaron.hpp"
 
-void invokeOption(int option, void (*options[])(objeto &))
+void invokeOption(int option, std::function<void(objeto &)> (options[]))
 {
-
     objeto b;
     switch(option)
     {
@@ -14,7 +12,7 @@ void invokeOption(int option, void (*options[])(objeto &))
             options[0](b);
             break;
         /*case 2:
-            pbajas( b,sdia,smes,sanyo);
+            pbajas(b);
             break;
         case 3:
             pcambios( b );
@@ -26,9 +24,8 @@ void invokeOption(int option, void (*options[])(objeto &))
             pentradas( b );
             break;
         case 6:
-            psalidas( b );
-            break;
-        */
+            
+            break;*/
         case 7:
             std::cout << "\nSaliendo..." << std::endl;
             break;
