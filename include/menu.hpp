@@ -10,8 +10,6 @@ void showOptions();
 
 int getOption();
 
-bool isInputValid(std::string option);
-
 void markOptionAsInvalid(std::string &option);
 
 void cambios( objeto & );

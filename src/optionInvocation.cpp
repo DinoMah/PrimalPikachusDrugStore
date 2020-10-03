@@ -8,24 +8,23 @@ void invokeOption(int option, std::function<void(objeto &)> (options[]))
     switch(option)
     {
         case 1:
-            cascaron(b);
-            options[0](b);
+            if (cascaron(b)) options[0](b);
             break;
-        /*case 2:
-            pbajas(b);
+        case 2:
+            options[1](b);
             break;
         case 3:
-            pcambios( b );
+            options[2](b);
             break;
         case 4:
-            pconsultas( b );
+            options[3](b);
             break;
         case 5:
-            pentradas( b );
+            options[4](b);
             break;
         case 6:
-            
-            break;*/
+            options[5](b);
+            break;
         case 7:
             std::cout << "\nSaliendo..." << std::endl;
             break;

@@ -1,8 +1,11 @@
 #include "../include/menu.hpp"
+#include "../include/validacion.hpp"
+#include "../include/typeOfValidations.hpp"
 #include <string>
 #include <iostream>
 #include <cctype>
 #include <cstdlib>
+#include <limits>
 
 int menu()
 {
@@ -13,7 +16,7 @@ int menu()
 
 void showOptions()
 {
-    //system("clear");// system( "cls" );
+    system("clear");
     
     std::cout << "\t\t\t\tMENU\n\n"
         << " 1 --> Altas\n"
@@ -33,28 +36,13 @@ int getOption()
     {
         std::cout << "Opcion: ";
         std::cin >> option;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         
-        if (isInputValid(option) )
+        if (isInputValid(option, NUMBER))
             return std::atoi(option.c_str());
         else
             markOptionAsInvalid(option);
     } while(true);
-}
-
-bool isInputValid(std::string option)
-{
-    if (option.length() != 1)
-        return false;
-    else if (isalnum(option[0]))
-        if (isalpha(option[0]))
-            return false;
-        else 
-            if (std::atoi(option.c_str()) < 1 || std::atoi(option.c_str()) > 7)
-                return false;
-            else
-                return true;
-    else
-        return false;
 }
 
 void markOptionAsInvalid(std::string &option)
@@ -63,7 +51,8 @@ void markOptionAsInvalid(std::string &option)
     option.clear();
 }
 
-void cambios( objeto &b ){
+void cambios(objeto &b)
+{
     /* string op;
      int opc;
     cout<<"QUE DESEA CAMBIAR"<<endl
@@ -101,7 +90,8 @@ void cambios( objeto &b ){
 */
 }
 
-void consultas( objeto &b ){
+void consultas(objeto &b)
+{
     /*string aux;
     bool ban = true;
     int op;

@@ -10,10 +10,10 @@ int cascaron(objeto &b)
     if(!archive.is_open())
     {
         std::cout << "Base de datos no disponible" << std::endl;
-        return 1;
+        return 0;
     }
     
     archive.write((char*)&b, sizeof(b));
     archive.close();
-    return 0;
+    return 1;
 }
