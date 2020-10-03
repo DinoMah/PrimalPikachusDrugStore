@@ -6,10 +6,10 @@
 typedef struct
 {
     int clave;
-    std::string nombre, descripcion;
+    char nombre[50], descripcion[256];
     int cantmin, cantmax, cantex;
-    std::string fechaCaducidad;
-    std::string proveedor = "Agapito";
+    char fechaCaducidad[7];
+    char proveedor[8] = "Agapito";
     bool vigente;
     double precio;
 } objeto;
