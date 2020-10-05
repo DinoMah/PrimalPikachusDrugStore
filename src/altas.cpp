@@ -1,10 +1,15 @@
 #include "../include/altas.hpp"
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <limits>
 
 void altas(objeto &b)
 {
-   /* std::ofstream archive("base.dat", std::ios::binary|std::ios::out|std::ios::in);
+    std::cout << "Aqui ando" << std::endl;
+    b.clave = *capturarClave();
+    std::cout << "Clave capturada: " << b.clave << std::endl;
+    /*std::ofstream archive("base.dat", std::ios::binary|std::ios::out|std::ios::in);
 
     if(!archive.is_open())
     {
@@ -18,38 +23,8 @@ void altas(objeto &b)
     bool ban = true;
     string dia,mes,anyo;
     do{
-        do{
-            cout << "Clave del art\241culo: ";
-            cin >> aux;
-            for( int i = 0; i < aux.length(); i++ ){
-                if( isalpha(aux[i]) ){
-                    cout << "\nClave inv\240lida\n";
-                    b.clave = 0;
-                    break;
-                }
-                else{
-                    b.clave = atoi(aux.c_str() );
-                }
-            }
-        }while( b.clave <= 0 ); //fin de clave del art�culo
+        
         aux.clear();
-        do{
-            cout << "Nombre del art\241culo: ";
-            cin.ignore();
-            getline( cin, aux );
-            for( int i = 0; i < aux.length(); i++ ){
-                if( isdigit(aux[i]) ){
-                    cout << "Nombre inv\240lido\n";
-                    aux.clear();
-                    ban = false;
-                    break;
-                }
-                else{
-                    strcpy(b.nom, aux.c_str() );
-                    ban = true;
-                }
-            }
-        }while( !(ban) ); //fin de do nombre
         aux.clear();
         do{
             cout << "Descripci\242n del art\241culo: ";
@@ -154,9 +129,78 @@ void altas(objeto &b)
                 }
             }
         }while( !ban );
+
     }while( op != 'n');
-    archive.write((char*)&b,sizeof(objeto));
-    archive.close();*/
     
-    std::cin.get();
+    archive.write((char*)&b,sizeof(objeto));
+    
+    archive.close();
+    */std::cin.get();
+}
+
+void * capturarDato(const char* productoACapturar, const char *invalidInputMessage, void * (*convert) (const void *), validationType typeOfValidation)
+{
+    std::string *datoIngresado = new std::string;
+    bool *terminated = new bool;
+    void *(*dato) = NULL;
+
+    *terminated = false;
+
+    do{
+        std::cout << productoACapturar;
+        std::cin >> *datoIngresado;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        if (isInputValid(*datoIngresado, typeOfValidation))
+        {
+            dato = new void*;
+            *dato = convert(datoIngresado->c_str());
+            
+            delete datoIngresado;
+            datoIngresado = NULL;
+
+            *terminated = true;
+        }
+        else
+        {
+            std::cout << invalidInputMessage << std::endl;
+            datoIngresado->clear();
+        }
+
+    }while(!*terminated);
+
+    delete terminated;
+    terminated = NULL;
+
+    if (dato != NULL) return dato;
+    else return (void *)0;
+}
+
+int * capturarClave()
+{
+    void* (*atoiPtr)(const void *) = reinterpret_cast<void*(*)(const void *)>(std::atoi);
+    int *clave = (int *)capturarDato("Dame una clave numerica: ", "Clave invalida, intentelo de nuevo.", atoiPtr, CLAVE);
+    return clave;
+}
+
+char * capturarNombreProducto()
+{
+    /*do{
+            cout << "Nombre del art\241culo: ";
+            cin.ignore();
+            getline( cin, aux );
+            for( int i = 0; i < aux.length(); i++ ){
+                if( isdigit(aux[i]) ){
+                    cout << "Nombre inv\240lido\n";
+                    aux.clear();
+                    ban = false;
+                    break;
+                }
+                else{
+                    strcpy(b.nom, aux.c_str() );
+                    ban = true;
+                }
+            }
+        }while( !(ban) ); //fin de do nombre*/
+    return new char[1];
 }

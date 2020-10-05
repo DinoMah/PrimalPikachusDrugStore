@@ -1,6 +1,6 @@
 #ifndef TYPEOFVALIDATION_H
 #define TYPEOFVALIDATION_H
 
-enum validationType { ALPHA, NUMBER, ALNUM, SPECIAL };
+enum validationType { ALPHA, NUMBER, ALNUM, SPECIAL, CLAVE };
 
 #endif // TYPEOFVALIDATION_H
