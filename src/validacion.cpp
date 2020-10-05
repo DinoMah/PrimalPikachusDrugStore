@@ -13,6 +13,8 @@ bool isInputValid(std::string input, validationType typeOfValidation)
             return isInputAlphanumeric(input);
         case CLAVE:
             return isClaveValid(input);
+        case DESC:
+            return isDescriptionValid(input);
         default:
             std::cout << "Tipo de validacion no valida" << std::endl;
     }
@@ -66,3 +68,15 @@ bool isClaveValid(std::string input)
     return verificarContenido(input, isdigit);
 }
 
+bool isDescriptionValid(std::string input)
+{
+    return verificarContenido(input, checkDescription);
+}
+
+bool checkDescription(char carac)
+{
+    if (isalnum(carac) || carac == '.' || carac == ',')
+        return true;
+    else
+        return false;
+}

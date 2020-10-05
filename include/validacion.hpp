@@ -17,4 +17,8 @@ bool isInputAlphanumeric(std::string input);
 
 bool isClaveValid(std::string input);
 
+bool isDescriptionValid(std::string input);
+
+bool checkDescription(char);
+
 #endif // VALIDACION_H

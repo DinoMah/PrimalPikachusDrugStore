@@ -3,12 +3,19 @@
 #include <fstream>
 #include <string>
 #include <limits>
+#include <string.h>
 
 void altas(objeto &b)
 {
-    std::cout << "Aqui ando" << std::endl;
-    b.clave = *capturarClave();
-    std::cout << "Clave capturada: " << b.clave << std::endl;
+    b.clave = capturarClave();
+    std::cout << "Clave del producto: " << b.clave << std::endl;
+
+    strcpy(b.nombre, capturarNombreProducto());
+    std::cout << "Nombre producto: " << b.nombre << std::endl;
+
+    strcpy(b.descripcion, capturarDescripcion());
+    std::cout << "Descripcion: " << b.descripcion << std::endl;
+    
     /*std::ofstream archive("base.dat", std::ios::binary|std::ios::out|std::ios::in);
 
     if(!archive.is_open())
@@ -26,23 +33,6 @@ void altas(objeto &b)
         
         aux.clear();
         aux.clear();
-        do{
-            cout << "Descripci\242n del art\241culo: ";
-            cin.ignore();
-            getline( cin, aux );
-            for( int i = 0; i < aux.length(); i++ ){
-                if( isdigit(aux[i]) ){
-                    cout << "Descripci\242n inv\240lido\n";
-                    aux.clear();
-                    ban = false;
-                    break;
-                }
-                else{
-                    strcpy(b.descripcion, aux.c_str() );
-                    ban = true;
-                }
-            }
-        }while( !(ban) ); //fin de do descripcion
         aux.clear(); //limpia aux
         do{
             b.cantmin = 1;
@@ -138,11 +128,10 @@ void altas(objeto &b)
     */std::cin.get();
 }
 
-void * capturarDato(const char* productoACapturar, const char *invalidInputMessage, void * (*convert) (const void *), validationType typeOfValidation)
+std::string * capturarDato(const char* productoACapturar, const char *invalidInputMessage, validationType typeOfValidation)
 {
     std::string *datoIngresado = new std::string;
     bool *terminated = new bool;
-    void *(*dato) = NULL;
 
     *terminated = false;
 
@@ -152,15 +141,7 @@ void * capturarDato(const char* productoACapturar, const char *invalidInputMessa
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 
         if (isInputValid(*datoIngresado, typeOfValidation))
-        {
-            dato = new void*;
-            *dato = convert(datoIngresado->c_str());
-            
-            delete datoIngresado;
-            datoIngresado = NULL;
-
             *terminated = true;
-        }
         else
         {
             std::cout << invalidInputMessage << std::endl;
@@ -172,35 +153,38 @@ void * capturarDato(const char* productoACapturar, const char *invalidInputMessa
     delete terminated;
     terminated = NULL;
 
-    if (dato != NULL) return dato;
-    else return (void *)0;
+    return datoIngresado;
 }
 
-int * capturarClave()
+int capturarClave()
 {
-    void* (*atoiPtr)(const void *) = reinterpret_cast<void*(*)(const void *)>(std::atoi);
-    int *clave = (int *)capturarDato("Dame una clave numerica: ", "Clave invalida, intentelo de nuevo.", atoiPtr, CLAVE);
+    std::string *input = capturarDato("Dame una clave numerica: ", "Clave invalida, intentelo de nuevo.", CLAVE);
+    int clave = std::atoi(input->c_str());
+    delete input;
+    input = NULL;
     return clave;
 }
 
 char * capturarNombreProducto()
 {
-    /*do{
-            cout << "Nombre del art\241culo: ";
-            cin.ignore();
-            getline( cin, aux );
-            for( int i = 0; i < aux.length(); i++ ){
-                if( isdigit(aux[i]) ){
-                    cout << "Nombre inv\240lido\n";
-                    aux.clear();
-                    ban = false;
-                    break;
-                }
-                else{
-                    strcpy(b.nom, aux.c_str() );
-                    ban = true;
-                }
-            }
-        }while( !(ban) ); //fin de do nombre*/
-    return new char[1];
+    std::string *input = capturarDato(
+        "Dame el nombre del producto: ", 
+        "El nombre no debe contener carac. especiales", 
+        ALNUM
+    );
+    char *nombreProducto = new char[input->length() + 1];
+    strcpy(nombreProducto, input->c_str());
+    return nombreProducto;
+}
+
+char * capturarDescripcion()
+{
+    std::string *input = capturarDato(
+        "Dame una descripcion del producto: ",
+        "La descripcion solo puede contener letras, numeros, puntos y comas.",
+        DESC
+    );
+    char *descripcionProducto = new char[input->length() + 1];
+    strcpy(descripcionProducto, input->c_str());
+    return descripcionProducto;
 }

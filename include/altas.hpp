@@ -7,8 +7,10 @@
 
 void altas(objeto &);
 
-int * capturarClave();
+int capturarClave();
 
 char * capturarNombreProducto();
+
+char * capturarDescripcion();
 
 #endif // ALTAS_H
