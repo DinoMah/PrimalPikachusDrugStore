@@ -21,4 +21,14 @@ bool isDescriptionValid(std::string input);
 
 bool checkDescription(char);
 
+bool isProductPriceValid(std::string);
+
+bool isInputDouble(char);
+
+bool isQuantityValid(std::string);
+
+bool isInputInt(char c);
+
+bool isDateValid(std::string);
+
 #endif // VALIDACION_H

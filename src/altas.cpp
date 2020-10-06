@@ -15,6 +15,15 @@ void altas(objeto &b)
 
     strcpy(b.descripcion, capturarDescripcion());
     std::cout << "Descripcion: " << b.descripcion << std::endl;
+
+    b.precio = capturarPrecioProducto();
+    std::cout << "Precio producto: " << b.precio << std::endl;
+
+    b.cantmin = capturarExistenciasMin();
+    std::cout << "Cant. min.: " << b.cantmin << std::endl;
+
+    b.cantmax = capturarExistenciasMax();
+    std::cout << "Cant. max.: " << b.cantmax << std::endl;
     
     /*std::ofstream archive("base.dat", std::ios::binary|std::ios::out|std::ios::in);
 
@@ -30,53 +39,6 @@ void altas(objeto &b)
     bool ban = true;
     string dia,mes,anyo;
     do{
-        
-        aux.clear();
-        aux.clear();
-        aux.clear(); //limpia aux
-        do{
-            b.cantmin = 1;
-            cout << "Cu\240l es la cantidad m\241nima en stock?: ";
-            cin >> aux;
-            b.cantmin = atoi(aux.c_str() );
-            for( int i = 0; i < aux.length(); i++ ){
-                if( isalpha(aux[i]) || b.cantmin <= 0 ){
-                    cout << "Cantidad m\241nima inv\240lida\n";
-                    b.cantmin = 0;
-                    break;
-                }
-            }
-        }while( b.cantmin <= 0 ); //fin de cantidad m�nima
-        aux.clear();
-        do{
-            b.cantmax= 1;
-            cout << "Cantidad m\240xima de art\241culo?: ";
-            cin >> aux;
-            b.cantmax = atoi(aux.c_str() );
-            for( int i = 0; i < aux.length(); i++ ){
-                if( isalpha(aux[i]) || b.cantmax <= 0  ){
-                    cout << "\nCantidad m\240xima inv\240lida\n";
-                    b.cantmax = 0;
-                    break;
-                }
-            }
-        }while( b.cantmax <= 0 ); //fin de cantidad m�xima
-        aux.clear();
-        do{
-            b.cantex= 0;
-            cout << "Cantidad existente del art\241culo?: ";
-            cin >> aux;
-            b.cantex = atoi(aux.c_str() );
-            for( int i = 0; i < aux.length(); i++ ){
-                if( isalpha(aux[i]) || b.cantex < 0  ){
-                    cout << "\nCantidad existente inv\240lida\n";
-                    b.cantex = 0;
-                    ban=false;
-                    break;
-                }else ban=true;
-            }
-        }while( b.cantex < 0 || !ban ); //fin de cantidad existente
-        aux.clear();
         do{
             cout<< "Dame la fecha de caducidad del articulo (ddmmaa): ";
             cin>> b.fechacad;
@@ -160,8 +122,9 @@ int capturarClave()
 {
     std::string *input = capturarDato("Dame una clave numerica: ", "Clave invalida, intentelo de nuevo.", CLAVE);
     int clave = std::atoi(input->c_str());
-    delete input;
-    input = NULL;
+    
+    delete input; input = NULL;
+
     return clave;
 }
 
@@ -174,6 +137,9 @@ char * capturarNombreProducto()
     );
     char *nombreProducto = new char[input->length() + 1];
     strcpy(nombreProducto, input->c_str());
+
+    delete input; input = NULL;
+
     return nombreProducto;
 }
 
@@ -186,5 +152,50 @@ char * capturarDescripcion()
     );
     char *descripcionProducto = new char[input->length() + 1];
     strcpy(descripcionProducto, input->c_str());
+
+    delete input; input = NULL;
+
     return descripcionProducto;
+}
+
+double capturarPrecioProducto()
+{
+    std::string *input = capturarDato(
+        "Dame el precio del producto: ",
+        "El precio del producto no es valido. Intentelo de nuevo",
+        PROD
+    );
+    double precioProducto = std::atof(input->c_str());
+
+    delete input; input = NULL;
+
+    return precioProducto;
+}
+
+int capturarExistenciasMin()
+{
+    std::string *input = capturarDato(
+        "Numero de existencias minimas?: ",
+        "Cantidad no valida, intentelo de nuevo.",
+        INTNUM
+    );
+    int canMin = std::atoi(input->c_str());
+
+    delete input; input = NULL;
+
+    return canMin;
+}
+
+int capturarExistenciasMax()
+{
+    std::string *input = capturarDato(
+        "Numero de existencias maximas?: ",
+        "Cantidad no valida, intentelo de nuevo.",
+        INTNUM
+    );
+    int canMax = std::atoi(input->c_str());
+
+    delete input; input = NULL;
+
+    return canMax;
 }

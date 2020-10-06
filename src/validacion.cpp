@@ -15,6 +15,12 @@ bool isInputValid(std::string input, validationType typeOfValidation)
             return isClaveValid(input);
         case DESC:
             return isDescriptionValid(input);
+        case PROD:
+            return isProductPriceValid(input);
+        case INTNUM:
+            return isQuantityValid(input);
+        case VALIDDATE:
+            return isDateValid(input);
         default:
             std::cout << "Tipo de validacion no valida" << std::endl;
     }
@@ -79,4 +85,33 @@ bool checkDescription(char carac)
         return true;
     else
         return false;
+}
+
+bool isProductPriceValid(std::string input)
+{
+    return verificarContenido(input, isInputDouble);
+}
+
+bool isInputDouble(char c)
+{
+    if (isdigit(c) || c == '.' )
+        return true;
+    return false;
+}
+
+bool isQuantityValid(std::string input)
+{
+    return verificarContenido(input, isInputInt);
+}
+
+bool isInputInt(char c)
+{
+    if (isdigit(c))
+        return true;
+    return false;
+}
+
+bool isDateValid(std::string input)
+{
+    return false;
 }

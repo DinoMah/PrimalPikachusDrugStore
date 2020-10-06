@@ -7,7 +7,7 @@ typedef struct
 {
     int clave;
     char nombre[50], descripcion[256];
-    int cantmin, cantmax, cantex;
+    int cantmin = 0, cantmax = 100, cantex = 0;
     char fechaCaducidad[7];
     char proveedor[8] = "Agapito";
     bool vigente;

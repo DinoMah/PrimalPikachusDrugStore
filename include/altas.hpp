@@ -13,4 +13,12 @@ char * capturarNombreProducto();
 
 char * capturarDescripcion();
 
+double capturarPrecioProducto();
+
+int capturarExistenciasMin();
+
+int capturarExistenciasMax();
+
+bool esVigente();
+
 #endif // ALTAS_H
