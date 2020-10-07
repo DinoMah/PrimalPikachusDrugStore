@@ -31,4 +31,6 @@ bool isInputInt(char c);
 
 bool isDateValid(std::string);
 
+bool checkDate(std::string);
+
 #endif // VALIDACION_H

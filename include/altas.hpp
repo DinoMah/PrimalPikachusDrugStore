@@ -19,6 +19,6 @@ int capturarExistenciasMin();
 
 int capturarExistenciasMax();
 
-bool esVigente();
+char * capturarFechaCaducidad();
 
 #endif // ALTAS_H

@@ -113,5 +113,40 @@ bool isInputInt(char c)
 
 bool isDateValid(std::string input)
 {
-    return false;
+    return checkDate(input);
+}
+
+bool checkDate(std::string input) // Cuidao, la validacion esta truqueada a modo, por cuestiones de simpleza
+{ // Solo hay 30 dias en cada mes y el año debe ser mayor o igual a 2020
+    if (input.length() != 8)
+        return false;
+
+    std::string day = "", month = "", year = "";
+    day = input.substr(0, 2); // From position 0 take 2 chars.
+    month = input.substr(2, 2);
+    year = input.substr(4, 4);
+
+    if (!verificarContenido(day, isdigit))
+        return false;
+
+    if (!verificarContenido(month, isdigit))
+        return false;
+
+    if (!verificarContenido(year, isdigit))
+        return false;
+
+    int intday = std::atoi(day.c_str());
+    int intmonth = std::atoi(month.c_str());
+    int intyear = std::atoi(year.c_str());
+
+    if (intday < 1 || intday > 30)
+        return false;
+
+    if (intmonth < 1 || intmonth > 12)
+        return false;
+
+    if (intyear < 2020)
+        return false;
+
+    return true;
 }
