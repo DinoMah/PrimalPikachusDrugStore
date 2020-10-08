@@ -11,7 +11,7 @@ enum validationType
     DESC,
     PROD,
     INTNUM,
-    VALIDDATE 
+    VALIDDATE
 };
 
 #endif // TYPEOFVALIDATION_H

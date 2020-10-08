@@ -1,4 +1,91 @@
-#include "./objeto.cpp"
+#include "../include/consultas.hpp"
+#include <string>
+#include <iostream>
+
+void consultas(objeto &b)
+{
+    std::string aux;
+    bool ban = false;
+    int op;
+
+    do{
+        showOptions();
+        std::cin >> aux;
+        ban = isInputValid(aux);
+    }while( !ban );
+
+    op = std::atoi(aux.c_str());
+
+    switch( op ){
+        case 1: consultaclave( b );
+            break;
+        case 2: consultageneral( b );
+            break;
+        case 3:  consultavigente( b );
+            break;
+        case 4:consultacaducados( b );
+            break;
+        case 5: consultamayor( b );
+            break;
+        case 6: consultamenor( b );
+            break;
+        case 7:  consultaminar( b );
+            break;
+        case 8:  consultaminab( b);
+            break;
+        case 9:   consultaporprov( b );
+            break;
+        case 10:  consultarelven( b );
+            break;
+        case 11:  consultafacven( b );
+            break;
+        case 12:  consultaestadistica( b );
+            break;
+        case 13:
+            std::cout << "Operacion terminada\n";
+            break;
+        default: std::cout<<"opcion invalida";
+    }
+}
+
+void showOptions()
+{
+    system("clear");
+    std::cout << "1 -- Consultar por clave\n"
+              << "2 -- Consultar todos\n"
+              << "3 -- Consultar articulos vigentes\n"
+              << "4 -- Consultar articulos caducados\n"
+              << "5 -- Consultar articulos mayores a cierto precio\n"
+              << "6 -- Consultar articulos menores a cierto precio\n"
+              << "7 -- Consultar articulos mayores al minimo permitido\n"
+              << "8 -- Consultar articulos menores al minimo permitido\n"
+              << "9 -- Consultar articulos comprados a cierto proveedor\n"
+              << "10 - Consultar relacion de articulos vendidos\n"
+              << "11 - Consultar todas las facturas\n"
+              << "12 - Consultar estadisticas\n"
+              << "13 - Regresar\n"
+              << "Opcion: ";
+}
+
+bool isInputValid(std::string input)
+{
+    if (input.length() > 2 || input.length() < 1)
+        return false;
+
+    for (int i = 0; i < input.length(); i++)
+        if( !isdigit(input[i]) )
+        {
+            std::cout << "Opcion invalida\n";
+            return false;
+        }
+    
+    int option = std::atoi(input.c_str());
+
+    if (option < 1 || option > 13)
+        return false;
+
+    return true;
+}
 
 void consultaclave( objeto &b ){
   /*  system( "cls" );

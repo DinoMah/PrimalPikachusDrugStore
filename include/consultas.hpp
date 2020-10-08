@@ -3,6 +3,12 @@
 
 #include "../src/objeto.cpp"
 
+void consultas(objeto &);
+
+void showOptions();
+
+bool isInputValid(std::string);
+
 void consultaclave( objeto & );
 void consultageneral( objeto & );
 void consultavigente( objeto & );

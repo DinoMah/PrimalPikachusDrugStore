@@ -14,6 +14,4 @@ void markOptionAsInvalid(std::string &option);
 
 void cambios( objeto & );
 
-void consultas(objeto & );
-
 #endif // MENU_H
