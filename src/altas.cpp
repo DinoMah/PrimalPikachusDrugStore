@@ -1,4 +1,5 @@
 #include "../include/altas.hpp"
+#include "../include/cascaron.hpp"
 #include <iostream>
 #include <fstream>
 #include <string>
@@ -7,7 +8,7 @@
 
 void altas(objeto &b)
 {
-    std::ofstream archive("base.dat", std::ios::binary|std::ios::out|std::ios::in);
+    std::ofstream archive("base.dat", std::ios::binary|std::ios::out|std::ios::ate);
 
     if(!archive.is_open())
     {
@@ -18,7 +19,17 @@ void altas(objeto &b)
     char option = 'y';
         
     do{
+        if (!cascaron(b))
+        {
+            std::cout << "No se pudo crear el registro para almacenar informacion." << std::endl;
+            return;
+        }
+
         b.clave = capturarClave();
+
+        archive.seekp((b.clave - 1)* sizeof(objeto), std::ios::beg);
+
+        std::cout << archive.tellp() << std::endl;
 
         strcpy(b.nombre, capturarNombreProducto());
 

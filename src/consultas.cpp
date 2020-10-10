@@ -1,6 +1,29 @@
 #include "../include/consultas.hpp"
+#include "../include/validacion.hpp"
+#include "../include/typeOfValidations.hpp"
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <limits>
+
+void showConsultOptions()
+{
+    system("clear");
+    std::cout << "1 -- Consultar por clave\n"
+              << "2 -- Consultar todos\n"
+              << "3 -- Consultar articulos vigentes\n"
+              << "4 -- Consultar articulos caducados\n"
+              << "5 -- Consultar articulos mayores a cierto precio\n"
+              << "6 -- Consultar articulos menores a cierto precio\n"
+              << "7 -- Consultar articulos mayores al minimo permitido\n"
+              << "8 -- Consultar articulos menores al minimo permitido\n"
+              << "9 -- Consultar articulos comprados a cierto proveedor\n"
+              << "10 - Consultar relacion de articulos vendidos\n"
+              << "11 - Consultar todas las facturas\n"
+              << "12 - Consultar estadisticas\n"
+              << "13 - Regresar\n"
+              << "Opcion: ";
+}
 
 void consultas(objeto &b)
 {
@@ -9,8 +32,9 @@ void consultas(objeto &b)
     int op;
 
     do{
-        showOptions();
+        showConsultOptions();
         std::cin >> aux;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         ban = isInputValid(aux);
     }while( !ban );
 
@@ -48,25 +72,6 @@ void consultas(objeto &b)
     }
 }
 
-void showOptions()
-{
-    system("clear");
-    std::cout << "1 -- Consultar por clave\n"
-              << "2 -- Consultar todos\n"
-              << "3 -- Consultar articulos vigentes\n"
-              << "4 -- Consultar articulos caducados\n"
-              << "5 -- Consultar articulos mayores a cierto precio\n"
-              << "6 -- Consultar articulos menores a cierto precio\n"
-              << "7 -- Consultar articulos mayores al minimo permitido\n"
-              << "8 -- Consultar articulos menores al minimo permitido\n"
-              << "9 -- Consultar articulos comprados a cierto proveedor\n"
-              << "10 - Consultar relacion de articulos vendidos\n"
-              << "11 - Consultar todas las facturas\n"
-              << "12 - Consultar estadisticas\n"
-              << "13 - Regresar\n"
-              << "Opcion: ";
-}
-
 bool isInputValid(std::string input)
 {
     if (input.length() > 2 || input.length() < 1)
@@ -87,67 +92,86 @@ bool isInputValid(std::string input)
     return true;
 }
 
-void consultaclave( objeto &b ){
-  /*  system( "cls" );
-    fstream archive( "base.dat", ios::binary | ios::out | ios::in );
-    if( archive.is_open() ){
-        string clave;
-        do{
-            cout << "Clave del art\241culo: ";
-            cin >> clave;
-            for( int i = 0; i < clave.length(); i++ ){
-                if( isalpha(clave[i]) ){
-                    cout << "\nClave inv\240lida\n";
-                    b.clave = 0;
-                    break;
-                }
-                else{
-                    b.clave = atoi(clave.c_str() );
-                }
-            }
-        }while( b.clave <= 0 );
-        archive.seekg( (b.clave - 1)*sizeof(b), ios::beg );
-        archive.read( (char*)&b, sizeof(b) );
-            cout << "\nRegistro consultado\n"
-                 << "Nombre del art\241culo: " << b.nom << endl
-                 << "Descripci\242n: " << b.descripcion << endl
-                 << "Cant. m\241n.: " << b.cantmin << endl
-                 << "Cant. m\240x.: " << b.cantmax << endl
-                 << "Cant. existente: " << b.cantex << endl
-                 << "Fecha de caducidad (ddmmaa): " << b.fechacad << endl
-                 << "Vigente: " << ( ( b.vigente == true) ? "Disponible\n":"No disponible\n" ) << endl;
-            archive.close();
-    }
-    else{
-        cout << "Archivo no disponible\n";
-    }
-    system( "pause" );*/
+void showDetails(objeto b)
+{
+    std::cout << "ID: " << b.clave << std::endl
+              << "Nombre del articulo: " << b.nombre << std::endl
+              << "Descripcion: " << b.descripcion << std::endl
+              << "Cant. min.: " << b.cantmin << std::endl
+              << "Cant. max.: " << b.cantmax << std::endl
+              << "Cant. existente: " << b.cantex << std::endl
+              << "Fecha de caducidad (ddmmaa): " << b.fechaCaducidad << std::endl
+              << "Vigente: " << ( ( b.vigente == true) ? "Vigente\n":"No vigente\n" ) << std::endl;
 }
-void consultageneral( objeto &b ){ //ERROR
- /*   system( "cls" );
-    fstream archive( "base.dat", ios::binary | ios::out | ios::in );
-    if( archive.is_open() ){
-        archive.seekg( 0, ios::beg );
-        archive.read( (char*)&b, sizeof(b) );
-        cout << "\tTODOS LOS REGISTROS\n\n";
-        while( !archive.eof() ){
-            cout << "Nombre del art\241culo: " << b.nom << endl
-                 << "Descripci\242n: " << b.descripcion << endl
-                 << "Cant. m\241n.: " << b.cantmin << endl
-                 << "Cant. m\240x.: " << b.cantmax << endl
-                 << "Cant. existente: " << b.cantex << endl
-                 << "Fecha de caducidad (ddmmaa): " << b.fechacad << endl
-                 << "Vigente: " << ( ( b.vigente == true) ? "Disponible\n":"No disponible\n" ) << endl;
-            archive.read( (char*)&b, sizeof(b) );
-            cout << endl;
-        }
-        archive.close();
+
+void consultaclave(objeto &b)
+{
+    system( "clear" );
+    std::ifstream archive("base.dat", std::ios::binary|std::ios::in);
+
+    if (!archive.is_open())
+    {
+        std::cout << "Base de datos no disponible" << std::endl;
+        return;
     }
-    else{
-        cout << "Archivo no disponible\n";
-    }
-    system( "pause" );*/
+
+    std::string clave;
+    bool valid = false;
+
+    do
+    {
+        std::cout << "Clave del articulo: ";
+        std::cin >> clave;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        if (isInputValid(clave, CLAVE))
+            valid = true;
+        else
+            std::cout << "Clave invalida, intentelo de nuevo." << std::endl;
+        
+    } while (!valid);
+
+    archive.seekg( (std::atoi(clave.c_str()) - 1)*sizeof(b), std::ios::beg );
+
+    archive.read( (char*)&b, sizeof(b) );
+
+    std::cout << "\nRegistro consultado\n";
+    showDetails(b);
+    
+    archive.close();
+
+    std::cin.get();
 }
+
+void consultageneral(objeto &b)
+{
+    system("clear");
+    std::ifstream archive("base.dat", std::ios::binary|std::ios::in);
+
+    if( !archive.is_open() )
+    {
+        std::cout << "Base de datos no disponible" << std::endl;
+        return;
+    }
+
+    archive.seekg(0, std::ios::beg);
+
+    archive.read((char*)&b, sizeof(b));
+
+    std::cout << "\tTODOS LOS REGISTROS\n\n";
+
+    while(!archive.eof())
+    {
+        showDetails(b);
+        archive.read((char*)&b, sizeof(b));
+        std::cout << std::endl;
+    }
+
+    archive.close();
+
+    std::cin.get();
+}
+
 void consultavigente( objeto &b ){ //ERROR
   /*  system( "cls" );
     fstream archive( "base.dat", ios::binary | ios::out | ios::in );

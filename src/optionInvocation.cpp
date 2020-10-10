@@ -1,6 +1,5 @@
 #include "../include/optionInvocation.hpp"
 #include <iostream>
-#include "../include/cascaron.hpp"
 
 void invokeOption(int option, std::function<void(objeto &)> (options[]))
 {
@@ -8,7 +7,7 @@ void invokeOption(int option, std::function<void(objeto &)> (options[]))
     switch(option)
     {
         case 1:
-            if (cascaron(b)) options[0](b);
+            options[0](b);
             break;
         case 2:
             options[1](b);
