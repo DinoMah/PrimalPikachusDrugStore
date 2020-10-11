@@ -29,8 +29,6 @@ void altas(objeto &b)
 
         archive.seekp((b.clave - 1)* sizeof(objeto), std::ios::beg);
 
-        std::cout << archive.tellp() << std::endl;
-
         strcpy(b.nombre, capturarNombreProducto());
 
         strcpy(b.descripcion, capturarDescripcion());
