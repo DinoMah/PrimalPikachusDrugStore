@@ -1,4 +1,5 @@
 #include "../include/cambios.hpp"
+#include "../include/validacion.hpp"
 #include <iostream>
 #include <limits>
 #include <fstream>
@@ -82,11 +83,74 @@ bool isChangeOptionValid(std::string input)
     return true;
 }
 
+int getClave()
+{
+    std::string clave = "";
+    while (true)
+    {
+        std::cout << "Dame la clave del producto: ";
+        std::cin >> clave;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        if (isInputValid(clave, CLAVE))
+        {
+            int productKey = std::atoi(clave.c_str());
+            return productKey;
+        }
+        else
+        {
+            std::cout << "Clave no valida, intentelo de nuevo." << std::endl;
+            clave.clear();
+        }
+    }
+}
+
+objeto getItem(int clave)
+{
+
+    std::fstream archive("base.dat", std::ios::binary|std::ios::in|std::ios::out);
+
+    if (!archive.is_open())
+    {
+        std::cout << "Base de datos no disponible" << std::endl;
+        return;
+    }
+
+    objeto obj;
+    archive.seekg((clave - 1)*sizeof(obj), std::ios::beg);
+    archive.read((char *)&obj, sizeof(objeto));
+    archive.close();
+    return obj;
+}
+
+std::string getNewData(const char *message, const char *wrongDataMessage, validationType typeOfValidation)
+{
+    std::string newData = "";
+    while (true)
+    {
+        std::cout << message << std::endl;
+        std::cin >> newData;
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+
+        if (isInputValid(newData, typeOfValidation))
+            return newData;
+        else
+        {
+            std::cout << wrongDataMessage << std::endl;
+            newData.clear();
+        }
+    }
+}
+
 void cambiarNombre(objeto &b)
 {
-    std::fstream archive("base.dat", std::ios::binary|std::ios::in|std::ios::out);
-    // Get item
-    // Get change
+    int clave = getClave();
+    b = getItem(clave);
+
+    std::string newName = getNewData(
+        "Dame el nuevo nombre: ",
+        "Nombre no valido, intentelo de nuevo.",
+        ALNUM
+    );
     // Write change
     // Exit
 }

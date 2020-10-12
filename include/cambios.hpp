@@ -2,6 +2,7 @@
 #define CAMBIOS_H
 
 #include "../src/objeto.cpp"
+#include "../include/typeOfValidations.hpp"
 #include <string>
 
 void cambios(objeto &);
@@ -11,6 +12,12 @@ void showChangeOptions();
 int getChangeOption();
 
 bool isChangeOptionValid(std::string);
+
+int getClave();
+
+objeto getItem(int);
+
+std::string getNewData(const char *, const char *, validationType);
 
 void cambiarNombre(objeto &);
 
