@@ -3,6 +3,7 @@
 #include <iostream>
 #include <limits>
 #include <fstream>
+#include <string.h>
 
 void cambios(objeto &b)
 {
@@ -14,22 +15,22 @@ void cambios(objeto &b)
     switch(option)
     {
         case 1: 
-            cambiarnom(b);
+            cambiarNombre(b);
             break;
         case 2: 
-            cambiardesc(b);
+            cambiarDescripcion(b);
             break;
         case 3: 
-            cambiarexis(b);
+            cambiarExistencias(b);
             break;
         case 4: 
-            cambiarfecha(b);
+            cambiarFechaCaducidad(b);
             break;
         case 5: 
-            cambiarvigen(b);
+            //cambiar(b);
             break;
         case 6: 
-            cambiarprecio(b);
+            cambiarPrecio(b);
             break;
         case 7:
             std::cout << "Saliendo... Presione una tecla para continuar." << std::endl;
@@ -111,8 +112,9 @@ objeto getItem(int clave)
 
     if (!archive.is_open())
     {
+        objeto b;
         std::cout << "Base de datos no disponible" << std::endl;
-        return;
+        return b;
     }
 
     objeto obj;
@@ -141,6 +143,21 @@ std::string getNewData(const char *message, const char *wrongDataMessage, valida
     }
 }
 
+bool writeNewData(objeto b)
+{
+    std::ofstream archive("base.dat", std::ios::binary|std::ios::out);
+
+    if (!archive.is_open())
+    {
+        std::cout << "Base de datos no disponible.\n";
+        return false;
+    }
+
+    archive.seekp((b.clave - 1) * sizeof(b), std::ios::beg);
+    archive.write((char *)&b, sizeof(objeto));
+    return true;
+}
+
 void cambiarNombre(objeto &b)
 {
     int clave = getClave();
@@ -151,8 +168,13 @@ void cambiarNombre(objeto &b)
         "Nombre no valido, intentelo de nuevo.",
         ALNUM
     );
-    // Write change
-    // Exit
+
+    strcpy(b.nombre, newName.c_str());
+    
+    if (writeNewData(b))
+        std::cout << "Cambio realizado con exito.\n";
+    else
+        std::cout << "Error: No se cambio el campo.\n";
 }
 
 void cambiarDescripcion(objeto &b){}
@@ -167,7 +189,7 @@ void cambiarFechaCaducidad(objeto &b){}
 
 void cambiarPrecio(objeto &b){}
 
-void cambiarnom( objeto &b ){
+/*void cambiarnom( objeto &b ){
 /*
     fstream archivo;
     archivo.open("base.dat",ios::out|ios::in|ios::binary);
@@ -188,7 +210,7 @@ void cambiarnom( objeto &b ){
 
 
     }else {cout<<"error al abrir el archivo"<<endl;}
-    system("pause");*/
+    system("pause");
 }
 
 void cambiardesc( objeto &b ){
@@ -210,7 +232,7 @@ void cambiardesc( objeto &b ){
         archivo.close();
     }else {cout<<"error al abrir el archivo"<<endl;}
     system("pause");
-*/
+
 }
 
 void cambiarexis( objeto &b ){
@@ -232,7 +254,7 @@ void cambiarexis( objeto &b ){
         archivo.close();
     }else {cout<<"error al abrir el archivo"<<endl;}
     system("pause");
-*/
+
 }
 
 void cambiarfecha( objeto &b ){
@@ -257,7 +279,7 @@ void cambiarfecha( objeto &b ){
         archivo.close();
     }else {cout<<"error al abrir el archivo"<<endl;}
     system("pause");
-*/
+
 }
 
 void cambiarprecio( objeto &b ){
@@ -279,7 +301,7 @@ void cambiarprecio( objeto &b ){
         archivo.close();
     }else {cout<<"error al abrir el archivo"<<endl;}
     system("pause");
-*/
+
 }
 
 void cambiarvigen( objeto &b ){
@@ -303,6 +325,6 @@ void cambiarvigen( objeto &b ){
         archivo.close();
     }else {cout<<"error al abrir el archivo"<<endl;}
     system("pause");
-*/
 
-}
+
+}*/

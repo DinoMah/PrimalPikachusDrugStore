@@ -19,6 +19,8 @@ objeto getItem(int);
 
 std::string getNewData(const char *, const char *, validationType);
 
+bool writeNewData(objeto);
+
 void cambiarNombre(objeto &);
 
 void cambiarDescripcion(objeto &);
