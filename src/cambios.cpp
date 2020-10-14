@@ -21,18 +21,15 @@ void cambios(objeto &b)
             cambiarDescripcion(b);
             break;
         case 3: 
-            cambiarExistencias(b);
+            cambiarExistenciasMin(b);
             break;
         case 4: 
-            cambiarFechaCaducidad(b);
+            cambiarExistenciasMax(b);
             break;
         case 5: 
-            //cambiar(b);
-            break;
-        case 6: 
             cambiarPrecio(b);
             break;
-        case 7:
+        case 6:
             std::cout << "Saliendo... Presione una tecla para continuar." << std::endl;
             std::cin.get();
             break;
@@ -42,13 +39,12 @@ void cambios(objeto &b)
 void showChangeOptions()
 {
     std::cout << "QUE DESEA CAMBIAR: \n"
-              <<"1 -> Nombre del Articulo\n"
-              <<"2 -> Descripcion generica\n"
-              <<"3 -> Stock\n"
-              <<"4 -> Fecha de Caducidad\n"
-              <<"5 -> vigencia\n"
-              <<"6 -> Precio\n"
-              <<"7 -> Cancelar\n";
+              << "1 -> Nombre del Articulo\n"
+              << "2 -> Descripcion generica\n"
+              << "3 -> Cantidad minima en stock\n"
+              << "4 -> Cantidad maxima en stock\n"
+              << "5 -> Precio\n"
+              << "6 -> Cancelar\n";
 }
 
 int getChangeOption()
@@ -78,7 +74,7 @@ bool isChangeOptionValid(std::string input)
         return false;
     
     int option = std::atoi(input.c_str());
-    if (option < 1 || option > 7)
+    if (option < 1 || option > 6)
         return false;
     
     return true;
@@ -177,154 +173,78 @@ void cambiarNombre(objeto &b)
         std::cout << "Error: No se cambio el campo.\n";
 }
 
-void cambiarDescripcion(objeto &b){}
+void cambiarDescripcion(objeto &b)
+{
+    int clave = getClave();
+    b = getItem(clave);
 
-void cambiarExistenciasMin(objeto &b){}
+    std::string newDesc = getNewData(
+        "Dame la nueva descripcion: ",
+        "Descripcion no valida, intentelo de nuevo.",
+        DESC
+    );
 
-void cambiarExistenciasMax(objeto &b){}
-
-void cambiarExistencias(objeto &b){}
-
-void cambiarFechaCaducidad(objeto &b){}
-
-void cambiarPrecio(objeto &b){}
-
-/*void cambiarnom( objeto &b ){
-/*
-    fstream archivo;
-    archivo.open("base.dat",ios::out|ios::in|ios::binary);
-    if(archivo.is_open()){
-        string nom;
-        cout<<"Dame el id a cambiar: ";
-        cin>>b.clave;
-    // validazion
-        archivo.seekg((b.clave-1)*sizeof(b),ios::beg);
-        archivo.read((char*)&b,sizeof(objeto));
-        cout<<"Dame el nombre nuevo";
-        cin.ignore();
-        getline(cin,nom);
-    //validazion
-        strcpy(b.nom,nom.c_str());
-        archivo.write((char*)&b,sizeof(objeto));
-        archivo.close();
-
-
-    }else {cout<<"error al abrir el archivo"<<endl;}
-    system("pause");
+    strcpy(b.descripcion, newDesc.c_str());
+    
+    if (writeNewData(b))
+        std::cout << "Cambio realizado con exito.\n";
+    else
+        std::cout << "Error: No se cambio el campo.\n";
 }
 
-void cambiardesc( objeto &b ){
-   /*   fstream archivo;
-    archivo.open("base.dat",ios::out|ios::in|ios::binary);
-    if(archivo.is_open()){
-        string descam;
-        cout<<"Dame el id a cambiar: ";
-        cin>>b.clave;
-    // validazion
-        archivo.seekg((b.clave-1)*sizeof(b),ios::beg);
-        archivo.read((char*)&b,sizeof(objeto));
-        cout<<"Dame la descrpcion generica nueva";
-        cin.ignore();
-        getline(cin,descam);
-            //validazion
-        strcpy(b.descripcion,descam.c_str());
-        archivo.write((char*)&b,sizeof(objeto));
-        archivo.close();
-    }else {cout<<"error al abrir el archivo"<<endl;}
-    system("pause");
+void cambiarExistenciasMin(objeto &b)
+{
+    int clave = getClave();
+    b = getItem(clave);
 
+    std::string newMin = getNewData(
+        "Dame la nueva cantidad minima: ",
+        "Cantidad no valida, intentelo de nuevo.",
+        INTNUM
+    );
+
+    b.cantmin = std::atoi(newMin.c_str());
+    
+    if (writeNewData(b))
+        std::cout << "Cambio realizado con exito.\n";
+    else
+        std::cout << "Error: No se cambio el campo.\n";
 }
 
-void cambiarexis( objeto &b ){
- /*   fstream archivo;
-    archivo.open("base.dat",ios::out|ios::in|ios::binary);
-    if(archivo.is_open()){
-        string descam;
-        cout<<"Dame el id a cambiar: ";
-        cin>>b.clave;
-    // validazion
-        archivo.seekg((b.clave-1)*sizeof(b),ios::beg);
-        archivo.read((char*)&b,sizeof(objeto));
-        cout<<"Dame la descrpcion generica nueva";
-        cin.ignore();
-        getline(cin,descam);
-            //validazion
-        strcpy(b.descripcion,descam.c_str());
-        archivo.write((char*)&b,sizeof(objeto));
-        archivo.close();
-    }else {cout<<"error al abrir el archivo"<<endl;}
-    system("pause");
+void cambiarExistenciasMax(objeto &b)
+{
+    int clave = getClave();
+    b = getItem(clave);
 
+    std::string newMax = getNewData(
+        "Dame la nueva cantidad maxima: ",
+        "Cantidad no valida, intentelo de nuevo.",
+        INTNUM
+    );
+
+    b.cantmax = std::atoi(newMax.c_str());
+    
+    if (writeNewData(b))
+        std::cout << "Cambio realizado con exito.\n";
+    else
+        std::cout << "Error: No se cambio el campo.\n";
 }
 
-void cambiarfecha( objeto &b ){
-/*        fstream archivo;
+void cambiarPrecio(objeto &b)
+{
+    int clave = getClave();
+    b = getItem(clave);
 
-    archivo.open("base.dat",ios::out|ios::in|ios::binary);
-    if(archivo.is_open()){
-        string fechacam;
-        char f[50];
-        cout<<"Dame el id a cambiar: ";
-        cin>>b.clave;
-    // validazion
-        archivo.seekg((b.clave-1)*sizeof(b),ios::beg);
-        archivo.read((char*)&b,sizeof(objeto));
-        cout<<"Dame la fecha nueva";
-        cin.ignore();
-        getline(cin,fechacam);
-            //validazion
-        strcpy(b.fechacad,fechacam.c_str());
+    std::string newPrice = getNewData(
+        "Dame el nuevo precio: ",
+        "Cantidad no valida, intentelo de nuevo.",
+        PROD
+    );
 
-        archivo.write((char*)&b,sizeof(objeto));
-        archivo.close();
-    }else {cout<<"error al abrir el archivo"<<endl;}
-    system("pause");
-
+    b.precio = std::atof(newPrice.c_str());
+    
+    if (writeNewData(b))
+        std::cout << "Cambio realizado con exito.\n";
+    else
+        std::cout << "Error: No se cambio el campo.\n";
 }
-
-void cambiarprecio( objeto &b ){
- /*           fstream archivo;
-    archivo.open("base.dat",ios::out|ios::in|ios::binary);
-    if(archivo.is_open()){
-        string preciocam;
-        cout<<"Dame el id a cambiar: ";
-        cin>>b.clave;
-    // validazion
-        archivo.seekg((b.clave-1)*sizeof(b),ios::beg);
-        archivo.read((char*)&b,sizeof(objeto));
-        cout<<"Dame el precio nuevo";
-        cin.ignore();
-        getline(cin,preciocam);
-            //validazion
-        b.precio=atoi(preciocam.c_str());
-        archivo.write((char*)&b,sizeof(objeto));
-        archivo.close();
-    }else {cout<<"error al abrir el archivo"<<endl;}
-    system("pause");
-
-}
-
-void cambiarvigen( objeto &b ){
- /*   fstream archivo;
-    archivo.open("base.dat",ios::out|ios::in|ios::binary);
-    if(archivo.is_open()){
-        char v[2];
-        string vigencam;
-        cout<<"Dame el id a cambiar: ";
-        cin>>b.clave;
-    // validazion
-        archivo.seekg((b.clave-1)*sizeof(b),ios::beg);
-        archivo.read((char*)&b,sizeof(objeto));
-        cout<<"Dame la vigencia nueva: ";
-        cin.ignore();
-        getline(cin,vigencam);
-            //validazion
-        strcpy(v,vigencam.c_str());
-    b.vigente=bool(v);
-        archivo.write((char*)&b,sizeof(objeto));
-        archivo.close();
-    }else {cout<<"error al abrir el archivo"<<endl;}
-    system("pause");
-
-
-}*/

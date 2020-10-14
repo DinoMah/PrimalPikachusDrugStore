@@ -29,10 +29,6 @@ void cambiarExistenciasMin(objeto &);
 
 void cambiarExistenciasMax(objeto &);
 
-void cambiarExistencias(objeto &);
-
-void cambiarFechaCaducidad(objeto &);
-
 void cambiarPrecio(objeto &);
 
 #endif // CAMBIOS_H
