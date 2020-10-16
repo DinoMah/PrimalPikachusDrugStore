@@ -1,5 +1,5 @@
 //Almacen de una farmacia PROYECTO FINAL
-//fecha: 17 - Julio - 2016
+//fecha: 17 - Julio - 2016 a Octubre de 2020
 //Autores:  Juan Carlos Herrera, Berenice Morones Alba
 
 #include "./include/menu.hpp"
